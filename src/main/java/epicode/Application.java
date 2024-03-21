@@ -29,38 +29,43 @@ public class Application {
         // ******************** SALVATAGGIO LOCATIONS, UTENTI E EVENTI ************************
 
         Location location1 = new Location(faker.address().city(), faker.address().cityName());
-        // locationsDAO.save(location1);
+      locationsDAO.save(location1);
 
         Location location2 = new Location(faker.address().city(), faker.address().cityName());
-        // locationsDAO.save(location2);
+      locationsDAO.save(location2);
 
         Person person1 = new Person(faker.name().firstName(), faker.name().lastName(), faker.internet().emailAddress(),  LocalDate.now(), rndm.nextInt(0, 2) == 0 ? 'M' : 'F');
-        // peopleDAO.save(person1);
+      peopleDAO.save(person1);
 
-       for (int i = 0; i < 20; i++) {
-            eventsDAO.save(new Event(
+        for (int i = 0; i < 3; i++) {
+            Concerto nuovoConcerto = new Concerto(
                     faker.chuckNorris().fact(),
                     LocalDate.of(rndm.nextInt(2023, 2025),
                             rndm.nextInt(1, 13),
                             rndm.nextInt(1, 29)),
                     faker.lorem().fixedString(50),
                     rndm.nextInt(1, 3) == 1 ? TipoEvento.PRIVATO : TipoEvento.PUBBLICO,
-                    rndm.nextInt(1, 1000),rndm.nextInt(0, 2) == 0 ? location1: location2));
+                    rndm.nextInt(1, 1000), rndm.nextInt(0, 2) == 0 ? location1 : location2);
+            nuovoConcerto.setGenere(Genere.ROCK);
+
+            eventsDAO.save(nuovoConcerto);
+        }
 
 
-        // ******************** PARTECIPAZIONE AD UN EVENTO ************************
+
+            // ******************** PARTECIPAZIONE AD UN EVENTO ************************
 
         Person person = peopleDAO.findById(1);
         Event event = eventsDAO.findById(24);
 
-        Attendance partecipazione = new Attendance(person, event);
+        //Attendance partecipazione = new Attendance(person, event);
         // attendancesDAO.save(partecipazione);
 
         // Stampo eventi a cui partecipa la persona 23
-        person.getListaPartecipazioni().forEach(System.out::println);
+       // person.getListaPartecipazioni().forEach(System.out::println);
 
         // Stampo elenco partecipanti evento 24
-        event.getListaPartecipazioni().forEach(System.out::println);
+       // event.getListaPartecipazioni().forEach(System.out::println);
 
         // ******************** CASCADING ************************
 
@@ -71,4 +76,4 @@ public class Application {
         em.close();
         emf.close();
    }
-}}
+}

@@ -6,7 +6,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "eventi")
-public class Event {
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "tipo_di_evento")
+public abstract class Event {
     @Id
     @GeneratedValue
     private long id;
